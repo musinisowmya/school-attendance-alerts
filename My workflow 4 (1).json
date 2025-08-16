@@ -1,0 +1,191 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11,
+              "triggerAtMinute": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        -48
+      ],
+      "id": "a72879e7-16c9-443a-8ae5-0c0d6a20b45c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Px9r88RovgcLDkg5NpprCiI9karA7CLb-JzVbXNAO6k",
+          "mode": "list",
+          "cachedResultName": "School",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Px9r88RovgcLDkg5NpprCiI9karA7CLb-JzVbXNAO6k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Px9r88RovgcLDkg5NpprCiI9karA7CLb-JzVbXNAO6k/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -208,
+        -48
+      ],
+      "id": "d2127a21-15fd-4653-a2c0-e3042c7ae5f3",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cXCeWDDuW3P29QuE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7863aef3-9965-4c7d-8260-57235258b6ce",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Absent",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -48
+      ],
+      "id": "c83325e2-5039-4e4e-bc28-1c082f95d370",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "maxItems": 5
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -128
+      ],
+      "id": "67a3324f-6f16-43f9-a6ff-ac688fc1e22f",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "sendTo": "musinisowmyasri2004@gmail.com",
+        "subject": "hello World",
+        "emailType": "text",
+        "message": "Subject: Student Absence Notification  Dear Parent,  We would like to inform you that your child was absent from school today. Kindly provide a reason for the absence and ensure that any missed assignments or classwork are followed up on.  If there is anything the school can assist with, please don’t hesitate to reach out.  Thank you for your attention and cooperation.  Warm regards, [Sowmya Sri] [class Teacher] Kakatiya High Shool",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        -128
+      ],
+      "id": "397b2bb3-5e74-4a91-be0d-65f94e71ab00",
+      "name": "Send a message",
+      "webhookId": "72ea277e-07e7-4b82-80db-b24442d74c69",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "6o0A1uRfSeUPlO0b",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "aa74d586-1c26-4816-b3c9-0350db92bc7c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1359c1753370b259e56b66894c06a3cbfd2b0518fc46b6789a3f93682e7c00b5"
+  },
+  "id": "g2rq1Y2ZE6JLF6Fn",
+  "tags": []
+}
